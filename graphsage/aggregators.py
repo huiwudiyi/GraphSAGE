@@ -35,6 +35,7 @@ class MeanAggregator(nn.Module):
         """
         # Local pointers to functions (speed hack)
         _set = set
+        # 从sample 中 采样 num_sample 中set([1,3,5],[3,4,6])
         if not num_sample is None:
             _sample = random.sample
             samp_neighs = [_set(_sample(to_neigh, 
@@ -44,6 +45,8 @@ class MeanAggregator(nn.Module):
             samp_neighs = to_neighs
 
         if self.gcn:
+            #samp_neighs  =  set([1,3,5],[3,4,6])
+
             samp_neighs = [samp_neigh + set([nodes[i]]) for i, samp_neigh in enumerate(samp_neighs)]
         unique_nodes_list = list(set.union(*samp_neighs))
         unique_nodes = {n:i for i,n in enumerate(unique_nodes_list)}
